@@ -1,0 +1,110 @@
+database:
+  host: "localhost"
+  port: 5432
+  user: "postgres"
+  password: "postgres"
+  name: "bronze_monitor"
+
+mqtt:
+  broker: "localhost"
+  port: 1883
+  username: "admin"
+  password: "admin"
+  topic_prefix: "museum/bronze"
+
+redis:
+  host: "localhost"
+  port: 6379
+  db: 0
+  streams:
+    raw_data: "stream:raw_data"
+    features: "stream:features"
+    predictions: "stream:predictions"
+    alerts: "stream:alerts"
+  groups:
+    feature_extractor: "group:feature_extractor"
+    predictor: "group:predictor"
+    alert_ws: "group:alert_ws"
+
+app:
+  host: "0.0.0.0"
+  port: 8000
+  env: "development"
+  report_interval: 900
+
+alerts:
+  wecom_webhook_url: ""
+  sms_api_url: ""
+  sms_api_key: ""
+  sms_sender: ""
+  cooldown_seconds: 900
+
+thresholds:
+  noise_resistance: 100.0
+  chloride: 3.0
+  sulfur_dioxide: 50.0
+  temperature_high: 30.0
+  humidity_high: 70.0
+
+models:
+  dir: "app/models"
+  pca_components: 10
+  rf_weight: 0.4
+  xgb_weight: 0.6
+  prediction_window: "24h"
+  thresholds:
+    "24h": 0.35
+    "72h": 0.50
+    "168h": 0.65
+  wavelet:
+    wavelet_type: "db4"
+    max_level: 5
+    sampling_rate: 1000
+
+spray:
+  default_inhibitor: "BTA"
+  required_coverage: 0.95
+  max_nozzle_positions: 16
+  nozzle_count: 4
+
+raman:
+  wavenumber_min: 100.0
+  wavenumber_max: 3500.0
+  confidence_threshold: 0.5
+  use_cnn: true
+
+lifetime:
+  recalc_interval_seconds: 3600
+
+vulnerability:
+  recalc_interval_seconds: 43200
+  ahp_matrices:
+    criteria:
+      - [1.0, 3.0, 5.0]
+      - [0.333, 1.0, 3.0]
+      - [0.2, 0.333, 1.0]
+    rust_sub:
+      - [1.0, 3.0, 2.0]
+      - [0.333, 1.0, 0.5]
+      - [0.5, 2.0, 1.0]
+    struct_sub:
+      - [1.0, 5.0, 3.0]
+      - [0.2, 1.0, 0.333]
+      - [0.333, 3.0, 1.0]
+    repair_sub:
+      - [1.0, 2.0]
+      - [0.5, 1.0]
+
+ga_planner:
+  robot_type: "articulated"
+  max_reach_m: 0.8
+  max_speed_m_s: 0.3
+  flow_rate_ml_s: 0.5
+  optimal_distance_m: 0.15
+  spray_angle_deg: 45.0
+  max_total_time_s: 600.0
+  recalc_interval_seconds: 21600
+
+simulator:
+  random_seed: 42
+  interval_seconds: 60
